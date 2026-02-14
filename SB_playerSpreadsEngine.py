@@ -9,12 +9,11 @@ import nba_api.library.http as nba_http
 
 nba_http.TIMEOUT = 60
 
-API_KEY = "1e8733ed806ebdfaeb16ea967d7e4b0e"
-portfolio_size = 70.91
+API_KEY = ""
+portfolio_size = 100
 season = "2025-26"
 
-# Optional: limit bookmakers to reduce payload/latency (still 1 request per game)
-BOOKMAKERS = None  # e.g. "bet365,williamhill"
+BOOKMAKERS = None
 
 games = SPF.upcoming_games(days_ahead=2)
 if games is None or games.empty:
@@ -24,10 +23,8 @@ active_players = pd.read_csv(
     "/Users/tristanwinter/Documents/Documents - Tristan’s MacBook Air/VSCode/LearningPython/.venv/sportsBetting/player_team_map.csv"
 )
 
-# Odds API events once
 events = SPF.fetch_nba_events(API_KEY, hours_ahead=48)
 
-# Build abbrev -> full name map for matching
 abbrev_to_full = {}
 for abbrev in pd.unique(pd.concat([games["HOME_TEAM"], games["AWAY_TEAM"]])):
     t = SPF.teams.find_team_by_abbreviation(abbrev)
